@@ -117,7 +117,7 @@ def main():
             stocks[ticker] = Stock(ticker)
         portfolio = Portfolio(stocks)
         N = num_days 
-        selected_stocks = portfolio.select_stocks(N, str(start_date))
+        selected_stocks = portfolio.select_stocks(N, str(start_date), initial_equity)
         st.subheader('Selected Stocks')
         st.write(selected_stocks)
 

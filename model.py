@@ -129,8 +129,7 @@ def main():
         benchmark_cagr = portfolio.CAGR(benchmark.iloc[0], benchmark.iloc[-1], 3)
         benchmark_volatility = portfolio.volatility(benchmark.pct_change().dropna())
         benchmark_sharpe_ratio = portfolio.sharpe_ratio(benchmark.pct_change().dropna())
-        sample_strategy = pd.concat([stock.data['Close'] for ticker, stock in stocks.items() if ticker in portfolio.select_stocks((N, str(start_date), initial_equity))], axis=1).mean(axis=1)
-        sample_strategy_cagr = portfolio.CAGR(sample_strategy.iloc[0], sample_strategy.iloc[-1], 3)
+        sample_strategy = pd.concat([stock.data['Close'] for ticker, stock in stocks.items() if ticker in portfolio.select_stocks(N, str(start_date), initial_equity)], axis=1).mean(axis=1)        sample_strategy_cagr = portfolio.CAGR(sample_strategy.iloc[0], sample_strategy.iloc[-1], 3)
         sample_strategy_volatility = portfolio.volatility(sample_strategy.pct_change().dropna())
         sample_strategy_sharpe_ratio = portfolio.sharpe_ratio(sample_strategy.pct_change().dropna())
         performance_summary = pd.DataFrame({

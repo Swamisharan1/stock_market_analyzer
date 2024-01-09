@@ -22,7 +22,7 @@ class Stock:
         cur_price = self.data.loc[curDate.strftime('%Y-%m-%d'), 'Close']
         return cur_price
 
-        def NDayRet(self, N, curDate):
+    def NDayRet(self, N, curDate):
         curDate = datetime.strptime(curDate, '%Y-%m-%d')
         while curDate.strftime('%Y-%m-%d') not in self.data.index.strftime('%Y-%m-%d'):
             curDate -= timedelta(days=1)

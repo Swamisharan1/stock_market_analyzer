@@ -22,7 +22,7 @@ class Stock:
         cur_price = self.data.loc[curDate.strftime('%Y-%m-%d'), 'Close']
         return cur_price
 
-    def NDayRet(self, N, curDate):
+        def NDayRet(self, N, curDate):
         curDate = datetime.strptime(curDate, '%Y-%m-%d')
         while curDate.strftime('%Y-%m-%d') not in self.data.index.strftime('%Y-%m-%d'):
             curDate -= timedelta(days=1)
@@ -72,13 +72,22 @@ class Portfolio:
     def sharpe_ratio(self, daily_returns):
         return np.sqrt(252) * np.mean(daily_returns) / np.std(daily_returns)
 
-    def select_stocks(self, curDate):
+    def select_stocks(self, N, curDate, initial_equity):
         selected_stocks = []
         for ticker, stock in self.stocks.items():
-            return_30d = stock.NDayRet(30, curDate)
-            if return_30d > 0:
+            return_N_days = stock.NDayRet(N, curDate)
+            if return_N_days > 0:
                 selected_stocks.append(ticker)
-        return selected_stocks
+        
+        # Calculate the number of shares to buy for each selected stock
+        num_stocks = len(selected_stocks)
+        if num_stocks > 0:
+            equity_per_stock = initial_equity / num_stocks
+            shares_to_buy = {ticker: equity_per_stock / self.stocks[ticker].CurPrice(curDate) for ticker in selected_stocks}
+        else:
+            shares_to_buy = {}
+
+        return shares_to_buy
 
     def rebalance_portfolio(self, start_date, end_date):
         start_date = datetime.strptime(start_date, '%Y-%m-%d')
@@ -107,7 +116,8 @@ def main():
         for ticker in nifty_50_tickers:
             stocks[ticker] = Stock(ticker)
         portfolio = Portfolio(stocks)
-        selected_stocks = portfolio.select_stocks(str(start_date))
+        N = num_days 
+        selected_stocks = portfolio.select_stocks(N, str(start_date))
         st.subheader('Selected Stocks')
         st.write(selected_stocks)
 

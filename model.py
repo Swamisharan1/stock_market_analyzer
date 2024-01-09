@@ -142,5 +142,17 @@ def main():
             'Sample Strategy': sample_strategy_normalized
         })
 
+        st.subheader('Selected Stocks')
+        st.write(selected_stocks)
+
+        performance_summary = pd.DataFrame({
+            'CAGR': [nifty_cagr, benchmark_cagr, sample_strategy_cagr],
+            'Volatility': [nifty_volatility, benchmark_volatility, sample_strategy_volatility],
+            'Sharpe Ratio': [nifty_sharpe_ratio, benchmark_sharpe_ratio, sample_strategy_sharpe_ratio]
+        }, index=['Nifty Index', 'Benchmark Allocation', 'Sample Strategy'])
+
+        st.subheader('Performance Metrics')
+        st.write(performance_summary)
+
 if __name__ == "__main__":
-    main()    
+    main()

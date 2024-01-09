@@ -118,7 +118,7 @@ def main():
         portfolio = Portfolio(stocks)
         N = num_days 
         selected_stocks = portfolio.select_stocks(N, str(start_date), initial_equity)
-        st.subheader('Selected Stocks')
+        st.subheader('Selected Stocks & Quantity')
         st.write(selected_stocks)
 
         nifty50 = yf.download('^NSEI', start=str(start_date), end=str(end_date))
